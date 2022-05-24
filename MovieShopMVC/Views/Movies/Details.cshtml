@@ -1,0 +1,172 @@
+﻿@model ApplicationCore.Models.MovieDetailsModel
+
+@using ApplicationCore.Contracts.Services
+@using ApplicationCore.Models
+@using MovieShopMVC.Services
+
+@inject ICurrentUser currentUser
+@inject IUserService userServer
+
+<div class="container-fluid" style="margin:0px">
+    <div class="row" style="background-image:url(@Model.BackdropUrl)">
+        <div class="col-4"> 
+            <img src = "@Model.PosterUrl" class="float-end" >
+        </div>
+        <div class="col-4" style="color:white">
+            <div class="row">
+                <p class="text-start fw-bolder mb-2" style="font-size:25px; font-style:">
+                    @Model.Title
+                </p>
+            </div>
+            <div class="row">
+                    <p class="text-start mb-2" style="font-size:6px">
+                        @Model.Tagline
+                    </p>
+            </div>            
+            <div class="row">
+                <div class="col-4">
+                    <p class="text-start mb-2" style="font-size:10px">
+                        @Model.RunTime m| @Model.ReleaseDate.Value.ToString("yyyy")
+                    </p>
+                </div>
+                <div class="col-8" style="font-size:8px">
+                    <ul class="list-inline">
+                    @foreach(var Genre in Model.Genres)
+                    {
+                       <li class="list-inline-item" style="background-color:gray; border-radius:5px; padding:2px; margin-right:3px">@Genre.Name</li> 
+                    }
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <p><span class="badge bg-success">@Model.Rating</span></p>
+            </div>
+            <div>
+                    <p class="text-start mb-2" style="font-size:10px">
+                        @Model.Overview
+                    </p>
+            </div>
+            
+        </div>
+        <div class="col-4 " >
+@*            <a href="#" class="btn btn-outline-light mt-3 me-2"
+            style="border-color:white;width: 200px;height: 25px;font-size: 15px; padding:0px; position:relative; left:200px; top:80px" role="button" 
+            data-bs-toggle="button">Review</a>
+            <br />
+            <a href="#" class="btn btn-light mt-3 me-2" role="button" data-bs-toggle="button" 
+            style="color : black; width: 200px;height: 25px;font-size: 15px; padding:0px; position:relative; left:200px; top:80px" >Buy @Model.Price</a>*@
+        <div class = "text-end">
+        <a class="btn btn-outline-dark me-2 " asp-controller = "Account" asp-action = "Login">Revies</a>
+        </div>
+        @if(currentUser.IsAuthenticated)
+                {
+                    Guid purchaseNumber = Guid.NewGuid();
+                if (await userServer.IsMoviePurchased(new PurchaseRequestModel
+                    {
+                        MovieId = Model.Id,
+                        Price = Model.Price,
+                        PurchaseNumber = purchaseNumber
+
+                    }, (int)currentUser.UserId) ==false)
+                {
+                    <div class = "text-end">
+                        <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                            Buy @Model.Price
+                        </button>
+                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">Purchase Details</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class = "container-f">
+                                            <div class ="row">
+                                                <div class="col-3"> 
+                                                    <img src = "@Model.PosterUrl" class="img-fluid" >
+                                                </div>
+                                                <div class = "col-9 text-start">
+                                                    <ul class="list-group list-group-flush">
+                                                      <li class="list-group-item">Purchase Date <span class="badge rounded-pill bg-secondary">@DateTime.Now.ToString("MMMM dd, yyyy")</span></li>
+                                                      <li class="list-group-item">Price <span class="badge rounded-pill bg-secondary">@Model.Price</span></li>
+                                                      <li class="list-group-item">Purchase Number <span class="badge rounded-pill bg-secondary">@purchaseNumber</span></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <a class="btn btn-outline-dark me-2 btn-bg:gray btn-color:black" asp-controller = "Purchase" asp-action = "PurchaseMovie"
+                                        asp-route-purchaseNumber = "@purchaseNumber" asp-route-movieId = "@Model.Id" asp-route-userId ="@currentUser.UserId">Buy @Model.Price</a>
+                                        @*<button type="button" class="btn btn-primary">Purchase</button>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+@*                        <a class="btn btn-outline-dark me-2 btn-font-weight: 200px" asp-controller = "Account" asp-action = "Register">Buy @Model.Price</a>    *@            }
+                    </div>
+                }
+                else
+                {
+                    <div class = "text-end">
+                        <a class="btn btn-outline-dark me-2">Watch</a>                }
+                    </div>
+                }
+                
+                    <div class = "text-end">
+                        <a class="btn btn-outline-dark me-2" asp-controller = "Account" asp-action = "Register">Add Favorite</a>                }
+                    </div>
+                }
+                else
+
+                {
+                    <div class = "text-end">
+                        <a class="btn btn-outline-dark me-2 btn-bg:gray btn-color:black" asp-controller = "Account" asp-action = "Login">Buy @Model.Price</a>
+                    </div>
+                }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <div class="row">
+                <p>
+                    MOVIE FACTS
+                </p>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">Released Date <span class="badge rounded-pill bg-secondary">@Model.ReleaseDate.Value.ToString("MMMM dd, yyyy")</span></li>
+                  <li class="list-group-item">Run Time <span class="badge rounded-pill bg-secondary">@Model.RunTime</span></li>
+                  <li class="list-group-item">Box Office <span class="badge rounded-pill bg-secondary">@Model.Revenue</span></li>
+                  <li class="list-group-item">Budget <span class="badge rounded-pill bg-secondary">@Model.Budget</span></li>
+                  <li class="list-group-item"></li>
+                </ul>
+            </div>
+            <div class="row">
+                <p>
+                    TRAILERS
+                </p>
+                <ul class="list-group list-group-flush">
+                    @foreach(var trailer in Model.Trailers)
+                    {
+                        <a href="@trailer.TrailerUrl" class="list-group-item list-group-item-action">@trailer.Name</a>
+                    }
+
+                </ul>
+            </div>
+        </div>
+        <div class="col-8">
+            <p>
+                MOVIE FACTS
+            </p>
+            @foreach(var cast in Model.Casts)
+            {
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item col-2 border-start-0 border-end-0"><img src="@cast.ProfilePath" style="border-radius:50%; height:50px; width:50px" /></li>
+                    <li class="list-group-item col-5 border-start-0 border-end-0">@cast.Name</li>
+                    <li class="list-group-item col-5 border-start-0 border-end-0">@cast.Character</li>
+                </ul>
+            }
+        </div>
+    </div>
+</div>
