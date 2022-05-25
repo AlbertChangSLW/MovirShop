@@ -15,12 +15,14 @@ namespace Infrastructure.Services
         private readonly IPurchaseRepository _purchaseRepository;
         private readonly IMovieRepository _movieRepository;
         private readonly IFavoriteRepository _favoriteRepository;
+        private readonly IReviewRepository _reviewRepository;
 
-        public UserSerivce(IPurchaseRepository purchaseRepository, IMovieRepository movieRepository, IFavoriteRepository favoriteRepository)
+        public UserSerivce(IPurchaseRepository purchaseRepository, IMovieRepository movieRepository, IFavoriteRepository favoriteRepository, IReviewRepository reviewRepository)
         {
             _purchaseRepository = purchaseRepository;
             _movieRepository = movieRepository;
             _favoriteRepository = favoriteRepository;
+            _reviewRepository = reviewRepository;
         }
 
         public async Task AddFavorite(FavoriteRequestModel favoriteRequest)
@@ -31,6 +33,18 @@ namespace Infrastructure.Services
                 MovieId = favoriteRequest.MovieId
             };
             var createdPurchase = await _favoriteRepository.Add(favorite);
+        }
+
+        public async Task AddMovieRevies(ReviewRequestModel reviewRequest)
+        {
+            var review = new Review
+            {
+                UserId = reviewRequest.UserId,
+                MovieId = reviewRequest.MovieId,
+                Rating = reviewRequest.Rating,
+                ReviewText = reviewRequest.ReviewText
+            };
+            var createdPurchase = await _reviewRepository.Add(review);
         }
 
         public async Task<bool> FavoriteExists(int id, int movieId)
