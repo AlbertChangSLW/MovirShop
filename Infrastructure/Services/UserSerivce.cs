@@ -20,6 +20,7 @@ namespace Infrastructure.Services
             _purchaseRepository = purchaseRepository;
         }
 
+
         //public UserSerivce(IMovieRepository movieRepository)
         //{
         //    _movieRepository = movieRepository;
@@ -27,7 +28,7 @@ namespace Infrastructure.Services
 
         //public async Task<PaginatedResultSet<MovieCardModel>> GetAllPurchasesForUser(int userId, int pageSize = 30, int pageNumber = 1)
         //{
-        //    var pagePurchases = await _movieRepository.GetMoviesByPurchase(userId, pageSize, pageNumber);
+        //    var pagePurchases = await _purchaseRepository.GetMoviesByPurchase(userId, pageSize, pageNumber);
         //    var movieCards = new List<MovieCardModel>();
         //    movieCards.AddRange(pagePurchases.Data.Select(x => new MovieCardModel
         //    {
@@ -51,9 +52,6 @@ namespace Infrastructure.Services
 
         public async Task PurchaseMovie(PurchaseRequestModel purchaseRequest, int userId)
         {
-            //var isMoviesPurchased = await this.IsMoviePurchased(purchaseRequest, userId);
-            //if(!isMoviesPurchased)
-            //{
                 var purchase = new Purchase
                 {
                     UserId = userId,
@@ -63,8 +61,6 @@ namespace Infrastructure.Services
                     MovieId = purchaseRequest.MovieId
                 };
             var createdPurchase = _purchaseRepository.Add(purchase);
-            //}
-
         }
 
 

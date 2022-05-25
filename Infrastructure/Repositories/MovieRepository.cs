@@ -52,27 +52,5 @@ namespace Infrastructure.Repositories
             var pagedMovies = new PaginatedResultSet<Movie>(movies, pageNumber, pageSize, totalMoviesCount);
             return pagedMovies;
         }
-
-        public async Task<PaginatedResultSet<Movie>> GetMoviesByPurchase(int userId, int pageSize = 30, int pageNumber = 1)
-        {
-            var totalMoviesCount = await _dbContext.Purchase.Where(m => m.UserId == userId).CountAsync();
-
-            if (totalMoviesCount == 0)
-            {
-                throw new Exception("No Movies Found for that Purchase");
-            };
-
-            var movies = await _dbContext.Purchase.Where(x => x.UserId == userId).Include(x => x.Movie).OrderBy(x => x.MovieId)
-                .Select(x => new Movie
-                {
-                    Id = x.MovieId,
-                    PosterUrl = x.Movie.PosterUrl,
-                    Title = x.Movie.Title
-                })
-                .Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
-
-            var pagedMovies = new PaginatedResultSet<Movie>(movies, pageNumber, pageSize, totalMoviesCount);
-            return pagedMovies;
-        }
     }
 }

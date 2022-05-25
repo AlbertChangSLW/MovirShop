@@ -11,6 +11,7 @@ namespace ApplicationCore.Contracts.Repositories
     public interface IPurchaseRepository : IRepository<Purchase>
     {
         Task<PaginatedResultSet<Purchase>> GetPurchasesByUser(int Id);
+        //Task<PaginatedResultSet<Movie>> GetMoviesByPurchase(int userId, int pageSize = 30, int pageNumber = 1);
         //Task<List<Purchase>> GetPurchasesByUser(int id);
     }
 }

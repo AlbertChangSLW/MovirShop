@@ -99,7 +99,7 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                         <a class="btn btn-outline-dark me-2 btn-bg:gray btn-color:black" asp-controller = "Purchase" asp-action = "PurchaseMovie"
-                                        asp-route-purchaseNumber = "@purchaseNumber" asp-route-movieId = "@Model.Id" asp-route-userId ="@currentUser.UserId">Buy @Model.Price</a>
+                                        asp-route-purchaseNumber = "@purchaseNumber" asp-route-movieId = "@Model.Id" asp-route-userId ="@currentUser.UserId" asp-route-price ="@Model.Price">Buy @Model.Price</a>
                                         @*<button type="button" class="btn btn-primary">Purchase</button>*@
                                     </div>
                                 </div>
