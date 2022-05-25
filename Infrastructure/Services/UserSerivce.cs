@@ -47,6 +47,19 @@ namespace Infrastructure.Services
             var createdPurchase = await _reviewRepository.Add(review);
         }
 
+        public async Task DeleteMovieRevies(int userId, int movieId)
+        {
+            var reviewList = await _reviewRepository.GetReviewByUser(userId);
+            foreach(var review in reviewList.Data)
+            {
+                if(review.MovieId == movieId)
+                {
+                    var deleteItem = new Review { MovieId = review.MovieId, UserId = review.UserId, Rating = review.Rating, ReviewText = review.ReviewText};
+                    var deleteReview = await _reviewRepository.Delete(deleteItem);
+                }
+            }
+        }
+
         public async Task<bool> FavoriteExists(int id, int movieId)
         {
             var favorite = await _favoriteRepository.GetFavoriteByUser(id);
@@ -116,6 +129,19 @@ namespace Infrastructure.Services
                 MovieId = favoriteRequest.MovieId
             };
             var createdPurchase = await _favoriteRepository.Delete(favorite);
+        }
+
+        public async Task UpdateMovieRevies(ReviewRequestModel reviewRequest)
+        {
+            var reviewList = await _reviewRepository.GetReviewByUser(reviewRequest.UserId);
+            foreach (var review in reviewList.Data)
+            {
+                if (review.MovieId == reviewRequest.MovieId)
+                {
+                    var updateReview = new Review { MovieId = reviewRequest.MovieId, UserId = reviewRequest.UserId, Rating = reviewRequest.Rating, ReviewText = reviewRequest.ReviewText };
+                    var deleteReview = await _reviewRepository.Update(updateReview);
+                }
+            }
         }
     }
 }

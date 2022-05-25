@@ -17,12 +17,19 @@ namespace Infrastructure.Repositories
         {
         }
 
-        public async Task<PaginatedResultSet<Review>> GetFavoriteByUser(int userId)
+        public async Task<PaginatedResultSet<Review>> GetReviewByUser(int userId)
         {
             var totalFavoriteCount = await _dbContext.Review.Where(m => m.UserId == userId).CountAsync();
             var favorite = await _dbContext.Review.OrderByDescending(x => x.Rating).Where(x => x.UserId == userId).ToListAsync();
             var favoriteList = new PaginatedResultSet<Review>(favorite, 1, 30, totalFavoriteCount);
             return favoriteList;
+        }
+
+        public override async Task<Review> Update(Review entity)
+        {
+            _dbContext.Set<Review>().Update(entity);
+            await _dbContext.SaveChangesAsync();
+            return entity;
         }
     }
 }

@@ -19,8 +19,8 @@ namespace ApplicationCore.Contracts.Services
         Task<bool> FavoriteExists(int id, int movieId);
         Task<PaginatedResultSet<MovieCardModel>> GetAllFavoritesForUser(int userId, int pageSize = 30, int pageNumber = 1);
         Task AddMovieRevies(ReviewRequestModel reviewRequest);
-        //Task UpdateMovieRevies(ReviewRequestModel reviewRequestModel);
-        //Task DeleteMovieRevies(ReviewRequestModel reviewRequestModel);
+        Task UpdateMovieRevies(ReviewRequestModel reviewRequestModel);
+        Task DeleteMovieRevies(int userId, int movieId);
         //Task<List<ReviewModel>> GetAllReviewsForUser(int Id);
     }
 }

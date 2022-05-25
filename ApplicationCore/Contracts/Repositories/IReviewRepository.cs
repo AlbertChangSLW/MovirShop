@@ -10,6 +10,6 @@ namespace ApplicationCore.Contracts.Repositories
 {
     public interface IReviewRepository : IRepository<Review>
     {
-        Task<PaginatedResultSet<Review>> GetFavoriteByUser(int userId);
+        Task<PaginatedResultSet<Review>> GetReviewByUser(int userId);
     }
 }
