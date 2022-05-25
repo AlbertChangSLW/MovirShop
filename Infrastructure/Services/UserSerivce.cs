@@ -14,18 +14,24 @@ namespace Infrastructure.Services
     {
         private readonly IPurchaseRepository _purchaseRepository;
         private readonly IMovieRepository _movieRepository;
+        private readonly IFavoriteRepository _favoriteRepository;
 
-        public UserSerivce(IPurchaseRepository purchaseRepository, IMovieRepository movieRepository)
+        public UserSerivce(IPurchaseRepository purchaseRepository, IMovieRepository movieRepository, IFavoriteRepository favoriteRepository)
         {
             _purchaseRepository = purchaseRepository;
             _movieRepository = movieRepository;
+            _favoriteRepository = favoriteRepository;
         }
 
-
-        //public UserSerivce(IMovieRepository movieRepository)
-        //{
-        //    _movieRepository = movieRepository;
-        //}
+        public async Task AddFavorite(FavoriteRequestModel favoriteRequest)
+        {
+            var favorite = new Favorite
+            {
+                UserId = favoriteRequest.UserId,
+                MovieId = favoriteRequest.MovieId
+            };
+            var createdPurchase = await _favoriteRepository.Add(favorite);
+        }
 
         public async Task<PaginatedResultSet<MovieCardModel>> GetAllPurchasesForUser(int userId, int pageSize = 30, int pageNumber = 1)
         {
@@ -61,7 +67,7 @@ namespace Infrastructure.Services
                     PurchaseDateTime = DateTime.Now,
                     MovieId = purchaseRequest.MovieId
                 };
-            var createdPurchase = _purchaseRepository.Add(purchase);
+            var createdPurchase = await _purchaseRepository.Add(purchase);
         }
 
 
