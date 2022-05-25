@@ -44,6 +44,19 @@ namespace Infrastructure.Services
             return false;
         }
 
+        public async Task<PaginatedResultSet<MovieCardModel>> GetAllFavoritesForUser(int userId, int pageSize = 30, int pageNumber = 1)
+        {
+            var pagePurchases = await _movieRepository.GetMoviesByFavorite(userId, pageSize, pageNumber);
+            var movieCards = new List<MovieCardModel>();
+            movieCards.AddRange(pagePurchases.Data.Select(x => new MovieCardModel
+            {
+                Id = x.Id,
+                PosterUrl = x.PosterUrl,
+                Title = x.Title
+            }));
+            return new PaginatedResultSet<MovieCardModel>(movieCards, pageNumber, pageSize, pagePurchases.Count);
+        }
+
         public async Task<PaginatedResultSet<MovieCardModel>> GetAllPurchasesForUser(int userId, int pageSize = 30, int pageNumber = 1)
         {
             var pagePurchases = await _movieRepository.GetMoviesByPurchase(userId, pageSize, pageNumber);
