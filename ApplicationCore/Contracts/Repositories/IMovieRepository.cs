@@ -12,5 +12,6 @@ namespace ApplicationCore.Contracts.Repositories
     {
         Task<List<Movie>> GetTop30GrossingMovies();
         Task<PaginatedResultSet<Movie>> GetMoviesByGenre(int genreId, int pageSize = 30, int pageNumber = 1);
+        Task<PaginatedResultSet<Movie>> GetMoviesByPurchase(int userId, int pageSize = 30, int pageNumber = 1);
     }
 }

@@ -26,9 +26,15 @@ namespace MovieShopMVC.Controllers
                 Price = price
             };
             await _userService.PurchaseMovie(purchaseRequst, userId);
-            return Redirect("~/Movies/Details/" + purchaseRequst.MovieId);
+            return RedirectToAction("MoviesByPurchase" , new {id = userId});
         }
 
+        [HttpGet]
+        public async Task<IActionResult> MoviesByPurchase(int id, int pageSize = 30, int pageNumber = 1)
+        {
+            var pagedMovies = await _userService.GetAllPurchasesForUser(id, pageSize, pageNumber);
+            return View(pagedMovies);
+        }
         //[HttpGet]
         //public IActionResult PurchaseMovie()
         //{

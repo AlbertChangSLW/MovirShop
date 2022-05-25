@@ -13,11 +13,12 @@ namespace Infrastructure.Services
     public class UserSerivce : IUserService
     {
         private readonly IPurchaseRepository _purchaseRepository;
-        //private readonly IMovieRepository _movieRepository;
+        private readonly IMovieRepository _movieRepository;
 
-        public UserSerivce(IPurchaseRepository purchaseRepository)
+        public UserSerivce(IPurchaseRepository purchaseRepository, IMovieRepository movieRepository)
         {
             _purchaseRepository = purchaseRepository;
+            _movieRepository = movieRepository;
         }
 
 
@@ -26,18 +27,18 @@ namespace Infrastructure.Services
         //    _movieRepository = movieRepository;
         //}
 
-        //public async Task<PaginatedResultSet<MovieCardModel>> GetAllPurchasesForUser(int userId, int pageSize = 30, int pageNumber = 1)
-        //{
-        //    var pagePurchases = await _purchaseRepository.GetMoviesByPurchase(userId, pageSize, pageNumber);
-        //    var movieCards = new List<MovieCardModel>();
-        //    movieCards.AddRange(pagePurchases.Data.Select(x => new MovieCardModel
-        //    {
-        //        Id = x.Id,
-        //        PosterUrl = x.PosterUrl,
-        //        Title = x.Title
-        //    }));
-        //    return new PaginatedResultSet<MovieCardModel>(movieCards, pageNumber, pageSize, pagePurchases.Count);
-        //}
+        public async Task<PaginatedResultSet<MovieCardModel>> GetAllPurchasesForUser(int userId, int pageSize = 30, int pageNumber = 1)
+        {
+            var pagePurchases = await _movieRepository.GetMoviesByPurchase(userId, pageSize, pageNumber);
+            var movieCards = new List<MovieCardModel>();
+            movieCards.AddRange(pagePurchases.Data.Select(x => new MovieCardModel
+            {
+                Id = x.Id,
+                PosterUrl = x.PosterUrl,
+                Title = x.Title
+            }));
+            return new PaginatedResultSet<MovieCardModel>(movieCards, pageNumber, pageSize, pagePurchases.Count);
+        }
 
         public async Task<bool> IsMoviePurchased(PurchaseRequestModel purchaseRequest, int userId)
         {

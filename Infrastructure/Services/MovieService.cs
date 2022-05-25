@@ -79,6 +79,19 @@ namespace Infrastructure.Services
             return new PaginatedResultSet<MovieCardModel>(movieCards, pageNumber, pageSize, pagedMovies.Count);
         }
 
+        public async Task<PaginatedResultSet<MovieCardModel>> GetMoviesByUserPaginationd(int userId, int pageSize = 30, int pageNumber = 1)
+        {
+            var pagedMovies = await _movieRepository.GetMoviesByGenre(userId, pageSize, pageNumber);
+            var movieCards = new List<MovieCardModel>();
+
+            movieCards.AddRange(pagedMovies.Data.Select(x => new MovieCardModel
+            {
+                Id = x.Id,
+                PosterUrl = x.PosterUrl,
+                Title = x.Title,
+            }));
+            return new PaginatedResultSet<MovieCardModel>(movieCards, pageNumber, pageSize, pagedMovies.Count);
+        }
 
         public async Task<List<MovieCardModel>> GetTop30GrossingMovies()
         {
