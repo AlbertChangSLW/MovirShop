@@ -70,6 +70,14 @@ namespace Infrastructure.Services
             var createdPurchase = await _purchaseRepository.Add(purchase);
         }
 
-
+        public async Task RemoveFavorite(FavoriteRequestModel favoriteRequest)
+        {
+            var favorite = new Favorite
+            {
+                UserId = favoriteRequest.UserId,
+                MovieId = favoriteRequest.MovieId
+            };
+            var createdPurchase = await _favoriteRepository.Delete(favorite);
+        }
     }
 }
