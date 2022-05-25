@@ -33,6 +33,17 @@ namespace Infrastructure.Services
             var createdPurchase = await _favoriteRepository.Add(favorite);
         }
 
+        public async Task<bool> FavoriteExists(int id, int movieId)
+        {
+            var favorite = await _favoriteRepository.GetFavoriteByUser(id);
+            foreach(Favorite favoriteItem in favorite.Data)
+            {
+                if (favoriteItem.MovieId == movieId)
+                    return true;
+            }
+            return false;
+        }
+
         public async Task<PaginatedResultSet<MovieCardModel>> GetAllPurchasesForUser(int userId, int pageSize = 30, int pageNumber = 1)
         {
             var pagePurchases = await _movieRepository.GetMoviesByPurchase(userId, pageSize, pageNumber);
