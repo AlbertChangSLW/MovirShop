@@ -39,5 +39,17 @@ namespace MovieShopAPI.Controllers
             return Ok(movies);
         }
 
+        [Route("genre/(id)")]
+        [HttpGet]
+        public async Task<IActionResult> GetMoviesByGenre(int id, int pageSize = 30, int pageNumber = 1)
+        {
+            var pagedMovies = await _movieService.GetMoviesByGenrePaginationd(id, pageSize, pageNumber);
+            if(pagedMovies == null)
+            {
+                return NotFound(new { errorMessage = "No Movies found" });
+            }
+            return Ok(pagedMovies);
+        }
+
     }
 }
