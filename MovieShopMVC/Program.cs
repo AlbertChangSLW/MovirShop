@@ -46,6 +46,10 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseCors(policy =>
+{
+policy.WithOrigins(builder.Configuration["spaUrl"]).AllowAnyMethod().AllowAnyHeader().AllowCredentials();
+});
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
