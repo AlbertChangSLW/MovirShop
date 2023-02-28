@@ -1,10 +1,13 @@
 ﻿using ApplicationCore.Contracts.Repositories;
 using ApplicationCore.Contracts.Services;
+using ApplicationCore.Entities;
 using ApplicationCore.Models;
 using Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,7 +24,7 @@ namespace Infrastructure.Services
         public async Task<MovieDetailsModel> GetMovieDetails(int movieId)
         {
             var movie = await _movieRepository.GetById(movieId);
-            if(movie == null)
+            if (movie == null)
             {
                 return null;
             }
@@ -29,7 +32,7 @@ namespace Infrastructure.Services
             {
                 Id = movie.Id,
                 Budget = movie.Budget,
-                Overview = movie.Overview, 
+                Overview = movie.Overview,
                 Price = movie.Price,
                 PosterUrl = movie.PosterUrl,
                 Revenue = movie.Revenue,
@@ -41,25 +44,25 @@ namespace Infrastructure.Services
                 ImdbUrl = movie.ImdbUrl,
                 TmdbUrl = movie.TmdbUrl,
             };
-            
-            foreach(var trailer in movie.Trailer )
+
+            foreach (var trailer in movie.Trailer)
             {
-                movieDetails.Trailers.Add(new TrailerModel { Id = trailer.Id, Name = trailer.Name, TrailerUrl = trailer.TrailerUrl});
+                movieDetails.Trailers.Add(new TrailerModel { Id = trailer.Id, Name = trailer.Name, TrailerUrl = trailer.TrailerUrl });
             }
 
-            foreach(var genre in movie.MovieGenre)
+            foreach (var genre in movie.MovieGenre)
             {
                 movieDetails.Genres.Add(new GenreModel { Id = genre.GenreId, Name = genre.Genre.Name });
             }
 
-            foreach(var cast in movie.MovieCast)
+            foreach (var cast in movie.MovieCast)
             {
                 movieDetails.Casts.Add(new CastModel { Id = cast.CastId, Name = cast.Cast.Name, Character = cast.Character, ProfilePath = cast.Cast.ProfilePath });
             }
 
             int counts = 0;
             decimal sum = 0;
-            foreach(var review in movie.Review)
+            foreach (var review in movie.Review)
             {
                 sum = sum + review.Rating;
                 counts++;
@@ -105,14 +108,29 @@ namespace Infrastructure.Services
             foreach (var movie in movies)
             {
                 MovieCards.Add(new MovieCardModel
-                    {
-                        Id = movie.Id,
-                        Title = movie.Title,
-                        PosterUrl = movie.PosterUrl,
-                    }
-                ); 
+                {
+                    Id = movie.Id,
+                    Title = movie.Title,
+                    PosterUrl = movie.PosterUrl,
+                }
+                );
             }
             return MovieCards;
+        }
+
+        public async Task<PaginatedResultSet<MovieCardModel>> GetAllMoviesPaginationd(int pageSize = 30, int pageNumber = 1)
+        {
+            var pagedMovies = await _movieRepository.GetAllMoviesPaginationd(pageSize, pageNumber);
+            var moviesCards = new List<MovieCardModel>();
+
+            moviesCards.AddRange(pagedMovies.Data.Select(x => new MovieCardModel
+            {
+                Id = x.Id,
+                PosterUrl = x.PosterUrl,
+                Title = x.Title,
+            }));
+            return new PaginatedResultSet<MovieCardModel>(moviesCards, pageNumber, pageSize, pagedMovies.Count);
+
         }
     }
 }

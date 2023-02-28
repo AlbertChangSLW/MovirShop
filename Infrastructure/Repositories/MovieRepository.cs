@@ -96,5 +96,23 @@ namespace Infrastructure.Repositories
             var pagedMovies = new PaginatedResultSet<Movie>(movies, pageNumber, pageSize, totalMoviesCount);
             return pagedMovies;
         }
+
+        public async Task<PaginatedResultSet<Movie>> GetAllMoviesPaginationd(int pageSize = 30, int pageNumber = 1)
+        {
+
+            var totalMoviesCount = await _dbContext.Movies.CountAsync();
+
+            var movies = await _dbContext.Movies.OrderBy(x => x.Id).Select(x => new Movie
+            {
+                Id = x.Id,
+                PosterUrl = x.PosterUrl,
+                Title = x.Title
+            })
+            .Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+
+            var pagedMovies = new PaginatedResultSet<Movie>(movies, pageNumber, pageSize, totalMoviesCount);
+
+            return pagedMovies;
+        }
     }
 }

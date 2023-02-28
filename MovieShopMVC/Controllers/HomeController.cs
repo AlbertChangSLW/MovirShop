@@ -18,10 +18,12 @@ namespace MovieShopMVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pageSize = 30, int pageNumber = 1)
         {
-            var movieCards = await _movieService.GetTop30GrossingMovies();
-            return View(movieCards );
+            //var movieCards = await _movieService.GetTop30GrossingMovies();
+            //return View(movieCards );
+            var pagedMovies = await _movieService.GetAllMoviesPaginationd(pageSize, pageNumber);
+            return View(pagedMovies);
         }
 
         [HttpGet]
