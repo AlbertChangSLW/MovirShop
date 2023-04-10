@@ -14,9 +14,10 @@ namespace ApplicationCore.Contracts.Services
         Task<bool> IsMoviePurchased(PurchaseRequestModel purchaseRequest, int userId);
         Task<PaginatedResultSet<MovieCardModel>> GetAllPurchasesForUser(int userId, int pageSize = 30, int pageNumber = 1);
         //Task<List<PurchasesDetailsModel>> GetPurchasesDetails(int userId, int movieId);
-        Task AddFavorite(FavoriteRequestModel favoriteRequest);
-        Task RemoveFavorite(FavoriteRequestModel favoriteRequest);
-        Task<bool> FavoriteExists(int id, int movieId);
+        Task AddFavorite(FavoriteRequestModel favoriteRequest, int userId);
+        //Task RemoveFavorite(FavoriteRequestModel favoriteRequest, int userId);
+        Task RemoveFavorite(int movieId, int userId);
+        Task<bool> FavoriteExists(FavoriteRequestModel favoriteRequest, int userId);
         Task<PaginatedResultSet<MovieCardModel>> GetAllFavoritesForUser(int userId, int pageSize = 30, int pageNumber = 1);
         Task AddMovieRevies(ReviewRequestModel reviewRequest);
         Task UpdateMovieRevies(ReviewRequestModel reviewRequestModel);

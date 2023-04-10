@@ -23,10 +23,10 @@ namespace Infrastructure.Repositories
         //    return purchase;
         //}
 
-        public async Task<PaginatedResultSet<Purchase>> GetPurchasesByUser(int id)
+        public async Task<PaginatedResultSet<Purchase>> GetPurchasesByUser(int userId)
         {
-            var totalPurchaseCount = await _dbContext.Purchase.Where(m => m.UserId == id).CountAsync();
-            var purchase = await _dbContext.Purchase.Where(x => x.UserId == id).ToListAsync();
+            var totalPurchaseCount = await _dbContext.Purchase.Where(m => m.UserId == userId).CountAsync();
+            var purchase = await _dbContext.Purchase.Where(x => x.UserId == userId).ToListAsync();
             var purchaseList = new PaginatedResultSet<Purchase>(purchase, 1, 30, totalPurchaseCount);
             return purchaseList;
         }

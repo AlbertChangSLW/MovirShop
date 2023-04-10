@@ -17,7 +17,7 @@
                         </a>
                     </li>
                     <li>
-                        <a class = "dropdown-item" asp-controller = "Favorite" asp-action = "MoviesByFavorite">
+                        <a class = "dropdown-item" asp-controller = "Favorite" asp-action = "MoviesByFavorite" asp-route-id="@currentUser.UserId">
                             Favorites
                         </a>
                     </li>

@@ -11,5 +11,6 @@ namespace ApplicationCore.Contracts.Repositories
     public interface IFavoriteRepository : IRepository<Favorite>
     {
         Task<PaginatedResultSet<Favorite>> GetFavoriteByUser(int userId);
+        Task<Favorite> GetFavorite(int userId, int movieId);
     }
 }

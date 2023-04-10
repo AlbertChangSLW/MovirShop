@@ -24,5 +24,11 @@ namespace Infrastructure.Repositories
             var favoriteList = new PaginatedResultSet<Favorite>(favorite, 1, 30, totalFavoriteCount);
             return favoriteList;
         }
+
+        public async Task<Favorite> GetFavorite(int movieId, int userId)
+        {
+            var favorite = await _dbContext.Favorite.FirstOrDefaultAsync(x => x.MovieId == movieId && x.UserId == userId);
+            return favorite;
+        }
     }
 }

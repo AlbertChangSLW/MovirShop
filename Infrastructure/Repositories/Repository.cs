@@ -1,5 +1,6 @@
 ﻿using ApplicationCore.Contracts.Repositories;
 using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,7 @@ namespace Infrastructure.Repositories
 
         public async Task<T> Delete(T entity)
         {
+            
             _dbContext.Set<T>().Remove(entity);
             await _dbContext.SaveChangesAsync();
             return entity;

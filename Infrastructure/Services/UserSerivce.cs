@@ -25,11 +25,11 @@ namespace Infrastructure.Services
             _reviewRepository = reviewRepository;
         }
 
-        public async Task AddFavorite(FavoriteRequestModel favoriteRequest)
+        public async Task AddFavorite(FavoriteRequestModel favoriteRequest, int userId)
         {
             var favorite = new Favorite
             {
-                UserId = favoriteRequest.UserId,
+                UserId = userId,
                 MovieId = favoriteRequest.MovieId
             };
             var createdPurchase = await _favoriteRepository.Add(favorite);
@@ -60,12 +60,12 @@ namespace Infrastructure.Services
             }
         }
 
-        public async Task<bool> FavoriteExists(int id, int movieId)
+        public async Task<bool> FavoriteExists(FavoriteRequestModel favoriteRequest, int userId)
         {
-            var favorite = await _favoriteRepository.GetFavoriteByUser(id);
+            var favorite = await _favoriteRepository.GetFavoriteByUser(userId);
             foreach(Favorite favoriteItem in favorite.Data)
             {
-                if (favoriteItem.MovieId == movieId)
+                if (favoriteItem.MovieId == favoriteRequest.MovieId)
                     return true;
             }
             return false;
@@ -121,13 +121,15 @@ namespace Infrastructure.Services
             var createdPurchase = await _purchaseRepository.Add(purchase);
         }
 
-        public async Task RemoveFavorite(FavoriteRequestModel favoriteRequest)
+        //public async Task RemoveFavorite(FavoriteRequestModel favoriteRequest, int userId)
+        public async Task RemoveFavorite(int movieId, int userId) 
         {
-            var favorite = new Favorite
+            var favorite = await _favoriteRepository.GetFavorite(movieId, userId);
+            /*var favorite = new Favorite
             {
-                UserId = favoriteRequest.UserId,
+                UserId = userId,
                 MovieId = favoriteRequest.MovieId
-            };
+            };*/
             var createdPurchase = await _favoriteRepository.Delete(favorite);
         }
 
