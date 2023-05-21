@@ -1,6 +1,8 @@
 ﻿using ApplicationCore.Contracts.Services;
 using ApplicationCore.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using System;
 
 namespace MovieShopMVC.Controllers
 {
@@ -30,9 +32,10 @@ namespace MovieShopMVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> MoviesByPurchase(int id, int pageSize = 30, int pageNumber = 1)
+        public async Task<IActionResult> MoviesByPurchase(int pageSize = 30, int pageNumber = 1)
         {
-            var pagedMovies = await _userService.GetAllPurchasesForUser(id, pageSize, pageNumber);
+            var userId = Convert.ToInt32(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var pagedMovies = await _userService.GetAllPurchasesForUser(userId, pageSize, pageNumber);
             return View(pagedMovies);
         }
         //[HttpGet]

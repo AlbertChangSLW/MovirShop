@@ -19,8 +19,115 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
+                        @*<li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Genres</a>
+                        </li>*@
+                        <li class="nav-item dropdown text-capitalize">
+                            <a class="nav-link dropdown-toggle text-dark" data-bs-toggle="dropdown" aria-expanded="false">
+                                Genre
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuBotton1">
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Movies" asp-action="MoviesByGenres" asp-route-id="1">
+                                        Adventure
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Movies" asp-action="MoviesByGenres" asp-route-id="2">
+                                        Fantasy
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Movies" asp-action="MoviesByGenres" asp-route-id="3">
+                                        Animation
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Movies" asp-action="MoviesByGenres" asp-route-id="4">
+                                        Drama
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Movies" asp-action="MoviesByGenres" asp-route-id="5">
+                                        Horror
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Movies" asp-action="MoviesByGenres" asp-route-id="6">
+                                        Action
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Movies" asp-action="MoviesByGenres" asp-route-id="7">
+                                        Comedy
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Movies" asp-action="MoviesByGenres" asp-route-id="8">
+                                        History
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Movies" asp-action="MoviesByGenres" asp-route-id="9">
+                                        Western
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Movies" asp-action="MoviesByGenres" asp-route-id="10">
+                                        Thriller
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Movies" asp-action="MoviesByGenres" asp-route-id="11">
+                                        Crime
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Movies" asp-action="MoviesByGenres" asp-route-id="12">
+                                        Documentary
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Movies" asp-action="MoviesByGenres" asp-route-id="13">
+                                        Science Fiction
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Movies" asp-action="MoviesByGenres" asp-route-id="14">
+                                        Mystery
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Movies" asp-action="MoviesByGenres" asp-route-id="15">
+                                        Music
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Movies" asp-action="MoviesByGenres" asp-route-id="16">
+                                        Romance
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Movies" asp-action="MoviesByGenres" asp-route-id="17">
+                                        Family
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Movies" asp-action="MoviesByGenres" asp-route-id="18">
+                                        War
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Movies" asp-action="MoviesByGenres" asp-route-id="19">
+                                        Foreign
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Movies" asp-action="MoviesByGenres" asp-route-id="20">
+                                        TV Movie
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>

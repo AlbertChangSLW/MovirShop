@@ -74,6 +74,31 @@ namespace MovieShopMVC.Controllers
             return View();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Profile()
+        {
+            var userId = Convert.ToInt32(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var profile = await _accountService.GetProfile(userId);
+            profile.OldPassword = null;
+            return View(profile);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Profile(ProfileModel model)
+        {
+            try
+            {        
+                var userId = Convert.ToInt32(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                var updateProfile = await _accountService.UpdateProfile(model, userId);
+                return Redirect("~/");
+            }
+            catch (Exception)
+            {
+                return View();
+                throw;
+            }
+            return View();
+        }
+
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();

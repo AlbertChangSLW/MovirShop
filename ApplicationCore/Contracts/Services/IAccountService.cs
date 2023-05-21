@@ -11,5 +11,7 @@ namespace ApplicationCore.Contracts.Services
     {
         Task<bool> RegisterUser(UserRegisterModel model);
         Task<UserLoginResponseModel> LoginUser(string email, string password);
+        Task<ProfileModel> GetProfile(int id);
+        Task<ProfileModel> UpdateProfile(ProfileModel model, int id);
     }
 }

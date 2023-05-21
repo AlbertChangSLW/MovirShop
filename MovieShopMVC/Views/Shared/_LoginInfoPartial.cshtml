@@ -12,17 +12,17 @@
                 </a>
                 <ul class = "dropdown-menu" aria-labelledby = "dropdownMenuBotton1">
                     <li>
-                        <a class = "dropdown-item" asp-controller = "Purchase" asp-action = "MoviesByPurchase" asp-route-id="@currentUser.UserId">
+                        <a class = "dropdown-item" asp-controller = "Purchase" asp-action = "MoviesByPurchase">
                             Library
                         </a>
                     </li>
                     <li>
-                        <a class = "dropdown-item" asp-controller = "Favorite" asp-action = "MoviesByFavorite" asp-route-id="@currentUser.UserId">
+                        <a class = "dropdown-item" asp-controller = "Favorite" asp-action = "MoviesByFavorite">
                             Favorites
                         </a>
                     </li>
                     <li>
-                        <a class = "dropdown-item" asp-controller = "Account" asp-action = "Profiles">
+                        <a class="dropdown-item" asp-controller="Account" asp-action="Profile">
                             Account
                         </a>
                     </li>

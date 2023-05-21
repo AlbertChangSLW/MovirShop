@@ -45,7 +45,10 @@ namespace Infrastructure.Repositories
 
         public async virtual Task<T> Update(T entity)
         {
-            throw new NotImplementedException();
+            /*throw new NotImplementedException();*/
+            _dbContext.Set<T>().Update(entity);
+            await _dbContext.SaveChangesAsync();
+            return entity;
         }
     }
 }

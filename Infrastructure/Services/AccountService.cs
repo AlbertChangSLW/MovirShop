@@ -74,6 +74,48 @@ namespace Infrastructure.Services
             return false;
         }
 
+        public async Task<ProfileModel> GetProfile(int id)
+        {
+            var dbUser = await _userRepository.GetUserById(id);
+
+            var profile = new ProfileModel
+            {
+                FirstName = dbUser.FirstName,
+                LastName = dbUser.LastName,
+                DateOfBirth = dbUser.DateOfBirth,
+                Email = dbUser.Email,
+                OldPassword = dbUser.HashedPassword,
+                PhoneNumber = dbUser.PhoneNumber                
+            };
+            return profile;
+        }
+        public async Task<ProfileModel> UpdateProfile(ProfileModel model, int id)
+        {
+            var dbUser = await _userRepository.GetUserById(id);
+            var hashedPassword = GetHashedPassword(model.OldPassword, dbUser.Salt);
+
+            if(hashedPassword == dbUser.HashedPassword)
+            {
+                if(model.NewPassword != null) 
+                {
+                    var newHashedPassword = GetHashedPassword(model.NewPassword, dbUser.Salt);
+                    dbUser.HashedPassword = newHashedPassword;
+                }
+
+                dbUser.FirstName = model.FirstName;
+                dbUser.LastName = model.LastName;
+                dbUser.DateOfBirth = model.DateOfBirth;
+                dbUser.Email = model.Email;
+                dbUser.PhoneNumber = model.PhoneNumber;
+
+                var updateProfile = _userRepository.Update(dbUser);
+
+                return null;
+            }
+
+            throw new ConflictException("The old password is wrong!");                
+        }
+
         private string GetRandomSalt()
         {
             var randomByte = new byte[128/8];
