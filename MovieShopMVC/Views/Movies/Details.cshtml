@@ -55,60 +55,66 @@
             <br />
             <a href="#" class="btn btn-light mt-3 me-2" role="button" data-bs-toggle="button" 
             style="color : black; width: 200px;height: 25px;font-size: 15px; padding:0px; position:relative; left:200px; top:80px" >Buy @Model.Price</a>*@
-            <div class = "text-end">
-            <a class="btn btn-outline-dark me-2 " asp-controller = "Account" asp-action = "Login">Revies</a>
-            </div>
             @if(currentUser.IsAuthenticated)
             {
-                    Guid purchaseNumber = Guid.NewGuid();
-                    if (await userServer.IsMoviePurchased(new PurchaseRequestModel
-                        {
-                            MovieId = Model.Id,
-                            Price = Model.Price,
-                            PurchaseNumber = purchaseNumber
+                <div class="text-end">
+                    <a class="btn btn-outline-dark me-2 " asp-controller="Review" asp-action="Review" asp-route-id = "@Model.Id">Revies</a>
+                </div>
 
-                        },
-                    (int)currentUser.UserId) == false)
+                Guid purchaseNumber = Guid.NewGuid();
+
+                if (await userServer.IsMoviePurchased(new PurchaseRequestModel
                     {
-                        <div class = "text-end">
-                            <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                Buy @Model.Price
-                            </button>
-                            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="staticBackdropLabel">Purchase Details</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class = "container-f">
-                                                <div class ="row">
-                                                    <div class="col-3"> 
-                                                        <img src = "@Model.PosterUrl" class="img-fluid" >
-                                                    </div>
-                                                    <div class = "col-9 text-start">
-                                                        <ul class="list-group list-group-flush">
-                                                          <li class="list-group-item">Purchase Date <span class="badge rounded-pill bg-secondary">@DateTime.Now.ToString("MMMM dd, yyyy")</span></li>
-                                                          <li class="list-group-item">Price <span class="badge rounded-pill bg-secondary">@Model.Price</span></li>
-                                                          <li class="list-group-item">Purchase Number <span class="badge rounded-pill bg-secondary">@purchaseNumber</span></li>
-                                                        </ul>
-                                                    </div>
+                        MovieId = Model.Id,
+                        Price = Model.Price,
+                        PurchaseNumber = purchaseNumber
+
+                    },
+                (int)currentUser.UserId) == false)
+                {
+                    <div class = "text-end">
+                        <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                            Buy @Model.Price
+                        </button>
+
+                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">Purchase Details</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <div class = "container-f">
+                                            <div class ="row">
+                                                <div class="col-3"> 
+                                                    <img src = "@Model.PosterUrl" class="img-fluid" >
+                                                </div>
+
+                                                <div class = "col-9 text-start">
+                                                    <ul class="list-group list-group-flush">
+                                                        <li class="list-group-item">Purchase Date <span class="badge rounded-pill bg-secondary">@DateTime.Now.ToString("MMMM dd, yyyy")</span></li>
+                                                        <li class="list-group-item">Price <span class="badge rounded-pill bg-secondary">@Model.Price</span></li>
+                                                        <li class="list-group-item">Purchase Number <span class="badge rounded-pill bg-secondary">@purchaseNumber</span></li>
+                                                    </ul>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                            <a class="btn btn-outline-dark me-2 btn-bg:gray btn-color:black" asp-controller = "Purchase" asp-action = "PurchaseMovie"
-                                            asp-route-purchaseNumber = "@purchaseNumber" asp-route-movieId = "@Model.Id" asp-route-userId ="@currentUser.UserId" asp-route-price ="@Model.Price">Buy @Model.Price</a>
-                                            @*<button type="button" class="btn btn-primary">Purchase</button>*@
-                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <a class="btn btn-outline-dark me-2 btn-bg:gray btn-color:black" asp-controller = "Purchase" asp-action = "PurchaseMovie"
+                                        asp-route-purchaseNumber = "@purchaseNumber" asp-route-movieId = "@Model.Id" asp-route-userId ="@currentUser.UserId" asp-route-price ="@Model.Price">Buy @Model.Price</a>
+                                        @*<button type="button" class="btn btn-primary">Purchase</button>*@
                                     </div>
                                 </div>
                             </div>
-                            @*<a class="btn btn-outline-dark me-2 btn-font-weight: 200px" asp-controller = "Account" asp-action = "Register">Buy @Model.Price</a>*@
-                        }
                         </div>
+                        @*<a class="btn btn-outline-dark me-2 btn-font-weight: 200px" asp-controller = "Account" asp-action = "Register">Buy @Model.Price</a>*@
+                    }
+                    </div>
                 }
                 else
                 {
@@ -138,12 +144,16 @@
                     </div>*@
                     <div class="text-end">
                         <a class="btn btn-outline-dark me-2 btn-bg:gray btn-color:black" asp-controller="Favorite" asp-action="RemoveFavorite"
-                   asp-route-movieId="@Model.Id" asp-route-userId="@currentUser.UserId">Remove Favorite </a>
+                        asp-route-movieId="@Model.Id" asp-route-userId="@currentUser.UserId">Remove Favorite </a>
                     </div>
                 }
             }
             else
             {
+                <div class="text-end">
+                    <a class="btn btn-outline-dark me-2 " asp-controller="Account" asp-action="Login">Revies</a>
+                </div>
+
                 <div class = "text-end">
                     <a class="btn btn-outline-dark me-2 btn-bg:gray btn-color:black" asp-controller = "Account" asp-action = "Login">Buy @Model.Price</a>
                 </div>
@@ -156,6 +166,7 @@
                 <p>
                     MOVIE FACTS
                 </p>
+
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item">Released Date <span class="badge rounded-pill bg-secondary">@Model.ReleaseDate.Value.ToString("MMMM dd, yyyy")</span></li>
                   <li class="list-group-item">Run Time <span class="badge rounded-pill bg-secondary">@Model.RunTime</span></li>
@@ -164,10 +175,12 @@
                   <li class="list-group-item"></li>
                 </ul>
             </div>
+
             <div class="row">
                 <p>
                     TRAILERS
                 </p>
+
                 <ul class="list-group list-group-flush">
                     @foreach(var trailer in Model.Trailers)
                     {
@@ -177,6 +190,7 @@
                 </ul>
             </div>
         </div>
+
         <div class="col-8">
             <p>
                 MOVIE FACTS

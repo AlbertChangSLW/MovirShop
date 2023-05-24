@@ -36,7 +36,10 @@ namespace MovieShopMVC.Controllers
         {
             var userId = Convert.ToInt32(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
             var pagedMovies = await _userService.GetAllPurchasesForUser(userId, pageSize, pageNumber);
-            return View(pagedMovies);
+
+            if (pagedMovies.Count > 0)
+                return View(pagedMovies);
+            else return Redirect("~/");
         }
         //[HttpGet]
         //public IActionResult PurchaseMovie()

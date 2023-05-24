@@ -1,0 +1,34 @@
+﻿@model ApplicationCore.Models.ReviewRequestModel
+
+<h1>Review</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="UpdateReview">
+            <div class="form-group">
+                <label asp-for="UserId" class="visually-hidden"></label>
+                <input asp-for="UserId" class="visually-hidden" />
+            </div>
+            <div class="form-group">
+                <label asp-for="MovieId" class="visually-hidden"></label>
+                <input asp-for="MovieId" class="visually-hidden" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Rating" class="control-label"></label>
+                <input asp-for="Rating" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="ReviewText" class="control-label"></label>
+                <input asp-for="ReviewText" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Update" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

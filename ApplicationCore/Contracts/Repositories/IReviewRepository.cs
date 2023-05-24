@@ -10,6 +10,7 @@ namespace ApplicationCore.Contracts.Repositories
 {
     public interface IReviewRepository : IRepository<Review>
     {
-        Task<PaginatedResultSet<Review>> GetReviewByUser(int userId);
+        Task<Review> GetReviewByUser(int userId, int movieId);
+        Task<PaginatedResultSet<Review>> GetAllReviewForMovie(int movieId, int pageSize = 50, int pageNumber = 1);
     }
 }

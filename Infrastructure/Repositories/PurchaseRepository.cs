@@ -26,7 +26,7 @@ namespace Infrastructure.Repositories
         public async Task<PaginatedResultSet<Purchase>> GetPurchasesByUser(int userId)
         {
             var totalPurchaseCount = await _dbContext.Purchase.Where(m => m.UserId == userId).CountAsync();
-            var purchase = await _dbContext.Purchase.Where(x => x.UserId == userId).ToListAsync();
+            var purchase = await _dbContext.Purchase.OrderByDescending(x => x.Id).Where(x => x.UserId == userId).ToListAsync();
             var purchaseList = new PaginatedResultSet<Purchase>(purchase, 1, 30, totalPurchaseCount);
             return purchaseList;
         }
